@@ -57,13 +57,13 @@ public struct CalendarScreen: View {
     
     var dayOfWeek: some View{
         HStack(alignment: .center){
+            TextDayWeek("Dom")
             TextDayWeek("Lun")
             TextDayWeek("Mar")
             TextDayWeek("Mie")
             TextDayWeek("Jue")
             TextDayWeek("Vie")
             TextDayWeek("Sáb")
-            TextDayWeek("Dom")
         }
         .padding(.vertical,5)
     }

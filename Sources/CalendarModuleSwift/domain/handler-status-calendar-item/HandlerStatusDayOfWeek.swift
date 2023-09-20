@@ -20,7 +20,7 @@ class HandlerStatusDayOfWeek:  HandlerStatusCalendarItem{
     func handle(request: Date) -> StatusCalendarItem? {
         
         let dayWeek = CalendarHelper().weekDay(request)
-        if isDisabledEndWeek ,dayWeek == 6{
+        if isDisabledEndWeek ,dayWeek == 0{
             return .disabled
         }else{
             return nextHandler?.handle(request: request)

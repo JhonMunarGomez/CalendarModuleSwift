@@ -11,7 +11,7 @@ public struct CalendarScreen: View {
     
     //MARK: state
     @State private var dateReference: Date = Date()
-    @Binding var selectedDate: Date
+    @Binding var selectedDate: Date?
     
     //MARK: variable
     private let dateBlockerTemp: [Date]
@@ -23,7 +23,7 @@ public struct CalendarScreen: View {
     let calendar = Calendar.current
     let formattedDate: formattedDate = formattedddMMyyyy(dateFormatter: DateFormatter())
     
-    public init(selected: Binding<Date>,disabledEndWeek:Bool = false ,startDate: Date? = nil, endDate: Date? = nil){
+    public init(selected: Binding<Date?>,disabledEndWeek:Bool = false ,startDate: Date? = nil, endDate: Date? = nil){
         _selectedDate = selected
         self.dateBlockerTemp = []
         self.startDate = startDate
@@ -32,7 +32,7 @@ public struct CalendarScreen: View {
     }
     
     
-    public init(selected: Binding<Date>,disabledEndWeek:Bool = false ,blocker: [Date],startDate: Date? = nil, endDate: Date? = nil){
+    public init(selected: Binding<Date?>,disabledEndWeek:Bool = false ,blocker: [Date],startDate: Date? = nil, endDate: Date? = nil){
         _selectedDate = selected
         self.dateBlockerTemp = blocker
         self.startDate = startDate
@@ -112,13 +112,16 @@ public struct CalendarScreen: View {
            
         let handlerStatusDayBlocker: HandlerStatusCalendarItem = HandlerStatusDayBlocker(blockerDay: dateBlocker)
         
-        let handlerStatusDaySelected: HandlerStatusCalendarItem = HandlerStatusDaySelected(selectedDate: selectedDate)
-        
         let handlerStatusStartDate: HandlerStatusCalendarItem = HandlerStatusStartDate(startDate: startDate)
         
         let handlerStatusEndDate: HandlerStatusCalendarItem = HandlerStatusEndDate(endDate: endDate)
         
-        handlerStatusNoMonth.setNext(handler: handlerStatusDayOfWeek).setNext(handler: handlerStatusDayBlocker).setNext(handler: handlerStatusDaySelected).setNext(handler: handlerStatusStartDate).setNext(handler: handlerStatusEndDate)
+        if let selectedDate {
+            let handlerStatusDaySelected: HandlerStatusCalendarItem = HandlerStatusDaySelected(selectedDate: selectedDate)
+            handlerStatusNoMonth.setNext(handler: handlerStatusDayOfWeek).setNext(handler: handlerStatusDayBlocker).setNext(handler: handlerStatusDaySelected).setNext(handler: handlerStatusStartDate).setNext(handler: handlerStatusEndDate)
+        }else{
+            handlerStatusNoMonth.setNext(handler: handlerStatusDayOfWeek).setNext(handler: handlerStatusDayBlocker).setNext(handler: handlerStatusStartDate).setNext(handler: handlerStatusEndDate)
+        }
         
         guard let status = handlerStatusNoMonth.handle(request: date) else{
             return .noselected

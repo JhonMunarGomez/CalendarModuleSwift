@@ -108,7 +108,7 @@ public struct CalendarScreen: View {
         let handlerStatusNoMonth: HandlerStatusCalendarItem = HandlerStatusNoMonth(referenceDate: self.dateReference)
         
         let handlerStatusDayOfWeek: HandlerStatusCalendarItem =
-               HandlerStatusDayOfWeek(isDisabledEndWeek: isDisabledEndWeek)
+               HandlerStatusSundayRestriction(isDisabledEndWeek: isDisabledEndWeek)
            
         let handlerStatusDayBlocker: HandlerStatusCalendarItem = HandlerStatusDayBlocker(blockerDay: dateBlocker)
         
